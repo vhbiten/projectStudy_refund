@@ -4,7 +4,7 @@ const expense = document.getElementById("expense")
 const category = document.getElementById("category")
 
 const expenseList = document.querySelector("ul")
-
+const expensesQuantity = document.querySelector("aside header p span")
 
 amount.oninput = () => {
     let value = amount.value.replace(/\D/g, "") //remove as letras do input
@@ -60,16 +60,26 @@ function ExpenseAdd(newExpense) {
         const expenseCategory = document.createElement("span")
         expenseCategory.textContent = newExpense.category_name
 
+        //cria o valor da despesa
+        const expenseAmount = document.createElement("span")
+        expenseAmount.classList.add("expense-amount")
+        expenseAmount.innerHTML = `<small>R$</small>${newExpense.amount.toUpperCase().replace("R$", "")}`
+
         expenseInfo.append(expenseName, expenseCategory)
 
+        //cria o icone de remover
+        const removeIcon = document.createElement("img")
+        removeIcon.classList.add("remove-icon")
+        removeIcon.setAttribute("src", "img/remove.svg")
+        removeIcon.setAttribute("alt", "remover")
+
         //adiciona informações no item
-        expenseItem.append(expenseIcon)
-        expenseItem.append(expenseInfo)
+        expenseItem.append(expenseIcon, expenseInfo, expenseAmount, removeIcon)
 
         //adiciona o item na lista
         expenseList.append(expenseItem)
 
-
+        updateTotals()
     //se der error cai no catch
     } catch (error){
         alert("Não foi possível atualizar a lista de despezas.")
@@ -77,3 +87,17 @@ function ExpenseAdd(newExpense) {
     }
 }
 
+
+//atualiza os totais
+function updateTotals() {
+    try {
+        //recupera os itens da li
+        const items = expenseList.children
+
+        expensesQuantity.textContent = `${items.length} ${items.length > 1 ? "despesas" : "despesa"}`
+
+    } catch (error){
+        console.log(error)
+        alert("Não foi possível atualizar os totais")
+    }
+}
