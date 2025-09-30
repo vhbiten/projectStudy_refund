@@ -1,4 +1,7 @@
+const form = document.querySelector("form")
 const amount = document.getElementById("amount")
+const expense = document.getElementById("expense")
+const category = document.getElementById("category")
 
 amount.oninput = () => {
     let value = amount.value.replace(/\D/g, "") //remove as letras do input
@@ -16,6 +19,6 @@ function formatCurrencyBRL(value) {
         //coloca o valor em formato BRL de currency
 }
 
-
-
-
+form.onsubmit = () => {
+    event.preventDefault()
+}
